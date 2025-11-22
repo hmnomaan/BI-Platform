@@ -1,0 +1,37 @@
+# Development BI Dashboard Configuration
+
+# Data Source Defaults
+data_sources:
+  default_database:
+    type: postgresql
+    host: localhost
+    port: 5432
+    database: bi_platform_dev
+    user: postgres
+    password: ${DB_PASSWORD}
+  
+  default_api:
+    timeout: 30
+    retry_attempts: 3
+
+# Chart Defaults
+charts:
+  default_height: 400
+  default_template: "plotly_white"
+  max_data_points: 10000
+  enable_animations: true
+
+# Dashboard Settings
+dashboard:
+  title: "BI Platform - Development"
+  theme: "bootstrap"
+  refresh_interval: 60
+  enable_export: true
+
+# Performance Settings
+performance:
+  cache_enabled: true
+  cache_ttl: 300  # seconds
+  optimize_dataframes: true
+  max_memory_mb: 512
+

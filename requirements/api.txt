@@ -1,0 +1,24 @@
+# API Engine specific dependencies
+# These are in addition to base.txt
+
+# Email providers
+sendgrid>=6.9.0  # For SendGrid provider
+# mailgun is handled via requests (already in base.txt)
+
+# Storage providers
+boto3>=1.26.0  # For S3 (already in base.txt)
+azure-storage-blob>=12.14.0  # For Azure Blob Storage
+
+# E-signature providers
+# DocuSign SDK can be added if needed, but we use REST API via requests
+
+# Search providers
+# Elasticsearch client can be added if needed, but we use REST API via requests
+elasticsearch>=8.0.0  # Optional: for advanced Elasticsearch features
+
+# Physical mail providers
+# Lob is handled via requests (already in base.txt)
+
+# Additional utilities
+cryptography>=3.4.8  # For security utilities
+

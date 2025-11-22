@@ -1,0 +1,34 @@
+# Shared configuration for BI Platform
+# This file contains common settings used across all environments
+
+# API Engine Configuration
+api:
+  timeout: 30
+  retry_attempts: 3
+  retry_delay: 1
+
+# Logging Configuration
+logging:
+  level: INFO
+  format: "{time} | {level} | {name}:{function}:{line} - {message}"
+  rotation: "10 MB"
+  retention: "7 days"
+
+# Database Configuration (if needed)
+database:
+  pool_size: 5
+  max_overflow: 10
+  pool_timeout: 30
+
+# Dashboard Configuration
+dashboard:
+  refresh_interval: 60  # seconds
+  max_data_points: 10000
+  default_chart_height: 400
+
+# Security Configuration
+security:
+  api_key_length: 32
+  password_min_length: 8
+  encryption_algorithm: "AES-256"
+

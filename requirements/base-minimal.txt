@@ -1,0 +1,33 @@
+# Minimal requirements for basic functionality
+# Use this if you encounter build issues with the full requirements
+
+# Core data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Visualization
+plotly>=5.18.0
+dash>=2.14.0
+dash-bootstrap-components>=1.5.0
+dash-table>=5.0.0
+
+# Data sources
+openpyxl>=3.1.0
+
+# API Engine basics
+requests>=2.31.0
+python-dotenv>=1.0.0
+pyyaml>=6.0.1
+
+# HTTP Service
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.5.0
+
+# Utilities
+click>=8.1.0
+loguru>=0.7.0
+
+# Note: SQLAlchemy, boto3, and other optional dependencies
+# can be installed separately if needed
+

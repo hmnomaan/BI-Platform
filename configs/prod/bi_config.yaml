@@ -1,0 +1,37 @@
+# Production BI Dashboard Configuration
+
+# Data Source Defaults
+data_sources:
+  default_database:
+    type: postgresql
+    host: ${DB_HOST}
+    port: ${DB_PORT}
+    database: ${DB_NAME}
+    user: ${DB_USER}
+    password: ${DB_PASSWORD}
+  
+  default_api:
+    timeout: 30
+    retry_attempts: 3
+
+# Chart Defaults
+charts:
+  default_height: 400
+  default_template: "plotly_white"
+  max_data_points: 50000
+  enable_animations: false  # Disable for better performance
+
+# Dashboard Settings
+dashboard:
+  title: "BI Platform"
+  theme: "bootstrap"
+  refresh_interval: 300  # 5 minutes
+  enable_export: true
+
+# Performance Settings
+performance:
+  cache_enabled: true
+  cache_ttl: 600  # 10 minutes
+  optimize_dataframes: true
+  max_memory_mb: 2048
+

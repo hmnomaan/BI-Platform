@@ -1,0 +1,16 @@
+# Database dependencies (optional)
+# Only install if you need to connect to PostgreSQL or MySQL databases
+
+# PostgreSQL
+psycopg2-binary>=2.9.5; platform_system != "Windows" or python_version >= "3.9"
+# For Windows with older Python, try:
+# psycopg2-binary>=2.9.5
+
+# Alternative PostgreSQL driver (if psycopg2-binary fails)
+# psycopg2>=2.9.5
+
+# MySQL (optional)
+# pymysql>=1.0.2
+
+# SQLite is included with Python, no installation needed
+

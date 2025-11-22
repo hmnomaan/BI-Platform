@@ -1,0 +1,19 @@
+# docker-compose.yml
+version: '3.8'
+services:
+  bi-dashboard:
+    build: ./bi_dashboard
+    ports:
+      - "8050:8050"
+    environment:
+      - DATABASE_URL=postgresql://user:pass@db:5432/bi_data
+    depends_on:
+      - db
+
+  api-engine:
+    build: ./api_engine
+    environment:
+      - VAULT_ADDR=http://vault:8200
+    secrets:
+      - sendgrid-api-key
+      - aws-access-key

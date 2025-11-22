@@ -1,0 +1,15 @@
+# BI Dashboard specific dependencies
+# These are in addition to base.txt
+
+# All BI Dashboard dependencies are already in base.txt:
+# - pandas
+# - plotly
+# - dash
+# - dash-bootstrap-components
+# - sqlalchemy
+# - psycopg2-binary
+# - openpyxl
+
+# Additional dependencies for enhanced features
+dash-table>=5.0.0  # Data table components (used in data preview)
+

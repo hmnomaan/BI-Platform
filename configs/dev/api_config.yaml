@@ -1,0 +1,40 @@
+# Development API Engine Configuration
+
+# Email Provider Configuration
+providers:
+  email:
+    type: sendgrid  # or mailgun
+    api_key: ${SENDGRID_API_KEY}  # Set in environment or .env file
+    from_email: "dev@bi-platform.local"
+  
+  storage:
+    type: s3  # or azure
+    access_key_id: ${AWS_ACCESS_KEY_ID}
+    secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+    region: us-east-1
+    endpoint_url: null  # Use null for AWS, or custom endpoint for S3-compatible services
+  
+  signing:
+    type: docusign
+    api_key: ${DOCUSIGN_API_KEY}
+    account_id: ${DOCUSIGN_ACCOUNT_ID}
+    user_id: ${DOCUSIGN_USER_ID}
+    base_url: "https://demo.docusign.net/restapi"  # Use demo for dev
+  
+  search:
+    type: elasticsearch
+    host: localhost
+    port: 9200
+    username: null
+    password: null
+    use_ssl: false
+  
+  physical_mail:
+    type: lob
+    api_key: ${LOB_API_KEY}
+    api_version: "2020-02-11"
+
+# Development-specific settings
+development:
+  debug: true
+  mock_providers: false  # Set to true to use mock providers for testing
