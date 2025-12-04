@@ -19,7 +19,7 @@ def read_requirements(file_path):
 
 setup(
     name="bi-platform",
-    version="1.0.0",
+    version="1.0.1",
     author="BI Platform Team",
     author_email="support@bi-platform.com",
     description="Business Intelligence Platform with API Integration Engine",

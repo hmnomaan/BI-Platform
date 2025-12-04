@@ -63,26 +63,39 @@ class DataSourceComponent:
         if data is None or data.empty:
             return html.Div("No data to preview", className="text-muted")
         
-        # Show first 100 rows
-        preview_data = data.head(100)
-        
+        # Show first N rows for preview; enable virtualization for large datasets
+        total_rows = len(data)
+        preview_limit = 100
+        preview_data = data.head(preview_limit)
+
+        table_kwargs = dict(
+            id=preview_id,
+            data=preview_data.to_dict('records'),
+            columns=[{"name": col, "id": col} for col in preview_data.columns],
+            page_size=10,
+            style_table={'overflowX': 'auto'},
+            style_cell={
+                'textAlign': 'left',
+                'padding': '10px',
+                'fontSize': '12px'
+            },
+            style_header={
+                'backgroundColor': 'rgb(230, 230, 230)',
+                'fontWeight': 'bold'
+            }
+        )
+
+        # If dataset is large, enable virtualization and native pagination for performance
+        if total_rows > 1000:
+            table_kwargs.update({
+                'page_action': 'native',
+                'page_size': 20,
+                'virtualization': True,
+                'fixed_rows': {'headers': True}
+            })
+
         return html.Div([
-            html.H6(f"Data Preview ({len(data)} rows, {len(data.columns)} columns)"),
-            dash_table.DataTable(
-                id=preview_id,
-                data=preview_data.to_dict('records'),
-                columns=[{"name": col, "id": col} for col in preview_data.columns],
-                page_size=10,
-                style_table={'overflowX': 'auto'},
-                style_cell={
-                    'textAlign': 'left',
-                    'padding': '10px',
-                    'fontSize': '12px'
-                },
-                style_header={
-                    'backgroundColor': 'rgb(230, 230, 230)',
-                    'fontWeight': 'bold'
-                }
-            )
+            html.H6(f"Data Preview ({total_rows} rows, {len(data.columns)} columns)"),
+            dash_table.DataTable(**table_kwargs)
         ], className="data-preview p-3")
 

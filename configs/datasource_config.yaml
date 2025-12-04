@@ -1,0 +1,169 @@
+# Data Source Configuration
+# This file defines data source connections and field mappings for the BI Dashboard
+
+# Data Source Connections
+data_sources:
+  # CSV File Source Example
+  sales_data_csv:
+    type: file
+    file_type: csv
+    path: data/sales_data.csv
+    cache: true
+    optimize: true
+    field_mappings:
+      date_field: date
+      numeric_fields:
+        - sales
+        - revenue
+        - profit
+      categorical_fields:
+        - region
+        - product
+        - category
+      display_names:
+        date: Date
+        sales: Sales Amount
+        revenue: Revenue
+        region: Region
+        product: Product Name
+
+  # Employee Data CSV
+  employee_data_csv:
+    type: file
+    file_type: csv
+    path: data/employee_data.csv
+    cache: true
+    field_mappings:
+      date_field: hire_date
+      numeric_fields:
+        - salary
+        - age
+        - experience_years
+      categorical_fields:
+        - department
+        - position
+        - location
+      display_names:
+        hire_date: Hire Date
+        salary: Salary
+        department: Department
+        position: Position
+
+  # Time Series Data
+  time_series_csv:
+    type: file
+    file_type: csv
+    path: data/time_series_data.csv
+    cache: true
+    field_mappings:
+      date_field: timestamp
+      numeric_fields:
+        - value
+        - metric_a
+        - metric_b
+      categorical_fields:
+        - category
+      display_names:
+        timestamp: Timestamp
+        value: Value
+        category: Category
+
+  # Database Source Example
+  sales_database:
+    type: database
+    name: primary_sales_db
+    connection_config:
+      type: postgresql
+      host: localhost
+      port: 5432
+      database: sales_db
+      user: postgres
+      password: ${DB_PASSWORD}
+    query: SELECT * FROM sales_transactions WHERE created_at >= CURRENT_DATE - INTERVAL '30 days'
+    cache: true
+    optimize: true
+    field_mappings:
+      date_field: created_at
+      numeric_fields:
+        - amount
+        - quantity
+        - discount
+      categorical_fields:
+        - product_id
+        - customer_id
+        - region
+      display_names:
+        created_at: Transaction Date
+        amount: Transaction Amount
+        quantity: Quantity
+        product_id: Product
+        region: Region
+
+  # API Source Example
+  api_data_source:
+    type: api
+    url: https://api.example.com/data/endpoint
+    headers:
+      Authorization: Bearer ${API_TOKEN}
+      Content-Type: application/json
+    params:
+      limit: 1000
+      format: json
+    cache: true
+    field_mappings:
+      date_field: timestamp
+      numeric_fields:
+        - metric1
+        - metric2
+      categorical_fields:
+        - category
+        - status
+      display_names:
+        timestamp: Timestamp
+        metric1: Metric 1
+        metric2: Metric 2
+        category: Category
+
+# Default Field Type Classifications
+# These help auto-detect field types if not explicitly mapped
+field_type_rules:
+  date_patterns:
+    - "date"
+    - "time"
+    - "timestamp"
+    - "created"
+    - "updated"
+  
+  numeric_patterns:
+    - "amount"
+    - "price"
+    - "cost"
+    - "sales"
+    - "revenue"
+    - "profit"
+    - "quantity"
+    - "count"
+    - "score"
+    - "metric"
+  
+  categorical_patterns:
+    - "category"
+    - "type"
+    - "status"
+    - "region"
+    - "country"
+    - "department"
+    - "product"
+
+# Connection Pools
+connection_pools:
+  primary_sales_db:
+    type: postgresql
+    host: localhost
+    port: 5432
+    database: sales_db
+    user: postgres
+    password: ${DB_PASSWORD}
+    pool_size: 5
+    max_overflow: 10
+

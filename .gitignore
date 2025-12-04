@@ -1,4 +1,5 @@
 node_modules/
+text-mode/
 
 # Python
 __pycache__/

@@ -68,8 +68,20 @@ def main():
     print("Build Complete!")
     print("=" * 60)
     print("\nPackage files are in the 'dist/' directory.")
+    # Attempt to read the version from setup.py to make the install hint accurate
+    version_hint = "<package-version>"
+    try:
+        import re
+        setup_py = Path(__file__).parent / "setup.py"
+        txt = setup_py.read_text(encoding="utf-8")
+        m = re.search(r"version\s*=\s*\"([0-9a-zA-Z.\-_]+)\"", txt)
+        if m:
+            version_hint = m.group(1)
+    except Exception:
+        pass
+
     print("\nTo install:")
-    print("  pip install dist/bi-platform-1.0.0.tar.gz")
+    print(f"  pip install dist/bi-platform-{version_hint}.tar.gz")
     print("\nOr for development:")
     print("  pip install -e .")
 

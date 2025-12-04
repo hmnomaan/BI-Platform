@@ -54,11 +54,9 @@ class ChartBuilderComponent:
             if "values" not in chart_config:
                 chart_config["values"] = config.get("values")
         
-        # Create the chart figure
+        # Create the chart figure (return raw Plotly Figure)
         fig = self.chart_builder.create_chart(data, chart_type, chart_config)
-        
-        # Wrap in Dash Graph component
-        return dcc.Graph(figure=fig)
+        return fig
     
     def build_chart_with_controls(self, chart_type: str, data: pd.DataFrame,
                                  config: Dict[str, Any]) -> html.Div:
@@ -73,7 +71,10 @@ class ChartBuilderComponent:
         Returns:
             Div containing chart and controls
         """
-        chart = self.build_chart(chart_type, data, config)
+        fig = self.build_chart(chart_type, data, config)
+
+        # Wrap the figure in a Dash Graph for rendering alongside controls
+        chart = dcc.Graph(figure=fig)
         
         controls = html.Div([
             html.H6("Chart Controls", className="mb-2"),

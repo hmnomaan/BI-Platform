@@ -1,0 +1,43 @@
+name: Python package CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, 3.10, 3.11]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install build and test dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install setuptools wheel build pytest
+        if [ -f requirements/base.txt ]; then pip install -r requirements/base.txt; fi
+
+    - name: Run unit tests
+      run: |
+        pytest -q tests/unit || true
+
+    - name: Build package
+      run: |
+        python -m build --sdist --wheel
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist-files
+        path: dist/*

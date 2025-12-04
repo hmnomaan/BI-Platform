@@ -11,7 +11,12 @@ class ChartBuilder:
             'line': self._create_line_chart,
             'bar': self._create_bar_chart,
             'pie': self._create_pie_chart,
-            'table': self._create_table
+            'table': self._create_table,
+            'scatter': self._create_scatter_chart,
+            'area': self._create_area_chart,
+            'histogram': self._create_histogram,
+            'box': self._create_box_plot,
+            'heatmap': self._create_heatmap
         }
     
     def create_chart(self, data: pd.DataFrame, chart_type: str, config: Dict[str, Any]) -> go.Figure:
@@ -78,4 +83,81 @@ class ChartBuilder:
             )
         )])
         
+        return fig
+    
+    def _create_scatter_chart(self, data: pd.DataFrame, config: Dict[str, Any]) -> go.Figure:
+        """Create scatter plot for correlations"""
+        fig = px.scatter(
+            data,
+            x=config['x_axis'],
+            y=config['y_axis'],
+            title=config.get('title', 'Scatter Plot'),
+            color=config.get('color'),
+            size=config.get('size'),
+            hover_data=config.get('hover_data')
+        )
+        return fig
+    
+    def _create_area_chart(self, data: pd.DataFrame, config: Dict[str, Any]) -> go.Figure:
+        """Create area chart for cumulative trends"""
+        fig = px.area(
+            data,
+            x=config['x_axis'],
+            y=config['y_axis'],
+            title=config.get('title', 'Area Chart'),
+            color=config.get('color'),
+            groupnorm=config.get('groupnorm')
+        )
+        return fig
+    
+    def _create_histogram(self, data: pd.DataFrame, config: Dict[str, Any]) -> go.Figure:
+        """Create histogram for distribution"""
+        fig = px.histogram(
+            data,
+            x=config.get('x_axis', config.get('y_axis')),
+            y=config.get('y_axis'),
+            title=config.get('title', 'Histogram'),
+            color=config.get('color'),
+            nbins=config.get('nbins', 30),
+            marginal=config.get('marginal')
+        )
+        return fig
+    
+    def _create_box_plot(self, data: pd.DataFrame, config: Dict[str, Any]) -> go.Figure:
+        """Create box plot for distribution comparison"""
+        fig = px.box(
+            data,
+            x=config.get('x_axis'),
+            y=config.get('y_axis'),
+            title=config.get('title', 'Box Plot'),
+            color=config.get('color')
+        )
+        return fig
+    
+    def _create_heatmap(self, data: pd.DataFrame, config: Dict[str, Any]) -> go.Figure:
+        """Create heatmap for correlation or matrix visualization"""
+        # If numeric columns specified, create correlation heatmap
+        if config.get('correlation', False):
+            numeric_cols = data.select_dtypes(include=['number']).columns
+            corr_data = data[numeric_cols].corr()
+            fig = px.imshow(
+                corr_data,
+                title=config.get('title', 'Correlation Heatmap'),
+                color_continuous_scale=config.get('color_scale', 'RdBu'),
+                aspect='auto'
+            )
+        else:
+            # Create pivot table heatmap
+            pivot_data = data.pivot_table(
+                values=config.get('values', config.get('y_axis')),
+                index=config.get('index'),
+                columns=config.get('columns', config.get('x_axis')),
+                aggfunc=config.get('aggfunc', 'mean')
+            )
+            fig = px.imshow(
+                pivot_data,
+                title=config.get('title', 'Heatmap'),
+                color_continuous_scale=config.get('color_scale', 'Viridis'),
+                aspect='auto'
+            )
         return fig
